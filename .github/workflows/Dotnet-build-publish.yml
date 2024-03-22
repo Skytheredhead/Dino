@@ -12,20 +12,20 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '8.0.x' # Ensure this matches your target .NET version
-        
+        dotnet-version: '8.0.x' # Make sure this version matches your project target
+
     - name: Restore dependencies
-      run: dotnet restore
-      
+      run: dotnet restore src/Dino.csproj # Change to match the location of your .csproj file
+
     - name: Build
-      run: dotnet build --no-restore -c Release
-      
+      run: dotnet build src/Dino.csproj --no-restore -c Release # Change to match the location of your .csproj file
+
     - name: Publish
-      run: dotnet publish -c Release -r win-x64 --self-contained true -o ./publish
+      run: dotnet publish src/Dino.csproj -c Release -r win-x64 --self-contained true -o ./publish # Change to match the location of your .csproj file
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
