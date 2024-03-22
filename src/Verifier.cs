@@ -15,17 +15,21 @@ namespace CodeFetchCSharp
             string websiteUrl = "https://justice151.github.io/OTK-DyKnow-Bypass/";
             var codes = await FetchCodesFromWebsite(websiteUrl);
 
-            Console.WriteLine("Enter the code: ");
-            string userCode = Console.ReadLine();
+            while (true)
+            {
+                Console.WriteLine("Enter the code: ");
+                string userCode = Console.ReadLine();
 
-            if (ValidateCode(userCode, codes))
-            {
-                Console.WriteLine("Valid code!");
-                await DownloadBlockerExe("https://github.com/Justice151/OTK-DyKnow-Bypass/raw/main/Blocker.exe");
-            }
-            else
-            {
-                Console.WriteLine("Invalid code.");
+                if (!string.IsNullOrEmpty(userCode) && ValidateCode(userCode, codes))
+                {
+                    Console.WriteLine("Valid code!");
+                    await DownloadBlockerExe("https://github.com/Justice151/OTK-DyKnow-Bypass/raw/main/Blocker.exe");
+                    break; // Exit the loop if the code is valid
+                }
+                else
+                {
+                    Console.WriteLine("Invalid code. Please try again.");
+                }
             }
         }
 
@@ -66,19 +70,14 @@ namespace CodeFetchCSharp
             string fileName = "blocker.exe";
             string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName);
 
-            Console.WriteLine($"Downloading 'blocker.exe' from {fileUrl}...");
-
             var response = await client.GetAsync(fileUrl);
             response.EnsureSuccessStatusCode();
 
             using (var fs = new FileStream(filePath, FileMode.Create))
             {
                 await response.Content.CopyToAsync(fs);
-                Console.WriteLine($"'blocker.exe' has been downloaded and saved to {filePath}");
+                Console.WriteLine("Dino Downloaded!"); // Confirmation message
             }
-
-            // Here you could optionally start the downloaded file if needed
-            // System.Diagnostics.Process.Start(filePath);
         }
     }
 }
