@@ -24,15 +24,15 @@ jobs:
     - name: Build
       run: dotnet build ./src/Dino.csproj --no-restore -c Release
 
-    - name: Publish
+        - name: Publish
+      shell: pwsh # Explicitly use PowerShell
       run: |
-        dotnet publish ./src/Dino.csproj -c Release -r win-x64 \
-        --self-contained true \
-        /p:PublishTrimmed=true \
-        /p:PublishSingleFile=true \
-        /p:IncludeNativeLibrariesForSelfExtract=true \
+        dotnet publish ./src/Dino.csproj -c Release -r win-x64 `
+        --self-contained true `
+        /p:PublishTrimmed=true `
+        /p:PublishSingleFile=true `
+        /p:IncludeNativeLibrariesForSelfExtract=true `
         -o ./publish
-      # Note: Adjust the publish options as needed for your project
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
